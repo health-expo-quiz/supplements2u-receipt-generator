@@ -54,7 +54,7 @@ function generateReceipt() {
 
         const abn = "86 381 577 263";
         const phone = "08 9227 6157";
-        const address = "Water Town Shopping Centre\nA035/840 Wellington Street\nWest Perth WA 6005\";
+        const address = "Water Town Shopping Centre\nA035/840 Wellington Street\nWest Perth WA 6005\nAustralia";
         const total = items.reduce((sum, item) => sum + (item.price * item.qty), 0);
         const paymentText = paymentMethod === "Card" && lastFour !== "N/A" 
             ? `Paid via ${cardType} •••• ${lastFour}` 
@@ -117,29 +117,29 @@ function generateReceipt() {
         doc.text("Your Health, Our Priority", 105, 57, { align: "center" });
         doc.setFont("Helvetica", "normal");
         doc.setTextColor(51, 51, 51);
-        doc.text(address, 105, 65, { align: "center", maxWidth: 100 });
-        doc.text(`ABN: ${abn}  |  Phone: ${phone}`, 105, 80, { align: "center" });
+        doc.text(address, 105, 65, { align: "center", maxWidth: 110 }); // Increased maxWidth for readability
+        doc.text(`ABN: ${abn}  |  Phone: ${phone}`, 105, 85, { align: "center" }); // Moved down to avoid overlap
         doc.setLineWidth(0.5);
         doc.setDrawColor(26, 60, 94);
-        doc.line(20, 85, 190, 85);
+        doc.line(20, 90, 190, 90); // Adjusted line position
 
         doc.setFontSize(12);
         doc.setFont("Helvetica", "bold");
-        doc.text(`Order #${orderNumber}`, 20, 95);
+        doc.text(`Order #${orderNumber}`, 20, 100);
         doc.setFont("Helvetica", "normal");
-        doc.text(`Date: ${formattedDateTime}`, 20, 103);
+        doc.text(`Date: ${formattedDateTime}`, 20, 108);
 
         doc.setFontSize(14);
         doc.setFont("Helvetica", "bold");
-        doc.text("Items Purchased", 20, 115);
-        let y = 122;
+        doc.text("Items Purchased", 20, 120);
+        let y = 127;
         doc.setFontSize(10);
         doc.setFillColor(26, 60, 94);
         doc.rect(20, y, 170, 6, "F");
         doc.setTextColor(255, 255, 255);
         doc.text("Item", 22, y + 4);
-        doc.text("Qty", 90, y + 4, { align: "center" });
-        doc.text("Unit Price", 120, y + 4, { align: "right" });
+        doc.text("Qty", 130, y + 4, { align: "center" }); // Shifted right
+        doc.text("Unit Price", 150, y + 4, { align: "right" }); // Shifted right
         doc.text("Total", 180, y + 4, { align: "right" });
         y += 6;
 
@@ -148,9 +148,9 @@ function generateReceipt() {
         items.forEach((item, index) => {
             doc.setFillColor(index % 2 === 0 ? 248 : 255, index % 2 === 0 ? 248 : 255, index % 2 === 0 ? 248 : 255);
             doc.rect(20, y, 170, 6, "F");
-            doc.text(item.name.slice(0, 35), 22, y + 4);
-            doc.text(item.qty.toString(), 90, y + 4, { align: "center" });
-            doc.text(`$${item.price.toFixed(2)}`, 120, y + 4, { align: "right" });
+            doc.text(item.name.slice(0, 45), 22, y + 4); // Increased max length
+            doc.text(item.qty.toString(), 130, y + 4, { align: "center" });
+            doc.text(`$${item.price.toFixed(2)}`, 150, y + 4, { align: "right" });
             doc.text(`$${(item.price * item.qty).toFixed(2)}`, 180, y + 4, { align: "right" });
             y += 6;
         });
@@ -158,7 +158,7 @@ function generateReceipt() {
         doc.setFillColor(232, 236, 239);
         doc.rect(20, y, 170, 6, "F");
         doc.setFont("Helvetica", "bold");
-        doc.text("Grand Total", 120, y + 4, { align: "right" });
+        doc.text("Grand Total", 150, y + 4, { align: "right" });
         doc.text(`$${total.toFixed(2)}`, 180, y + 4, { align: "right" });
         y += 12;
 
