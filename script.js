@@ -5,9 +5,14 @@ document.getElementById('receiptForm').addEventListener('submit', function (e) {
     generateReceipt();
 });
 
+// Fix card details toggle
 document.getElementById('paymentMethod').addEventListener('change', function () {
     const cardDetails = document.getElementById('cardDetails');
-    cardDetails.classList.toggle('hidden', this.value !== 'Card');
+    if (this.value === 'Card') {
+        cardDetails.classList.remove('hidden');
+    } else {
+        cardDetails.classList.add('hidden');
+    }
 });
 
 function addItem() {
@@ -24,6 +29,7 @@ function addItem() {
 
 function generateReceipt() {
     try {
+        // Get form values
         const customerEmail = document.getElementById('customerEmail').value;
         if (!customerEmail) {
             alert("Customer Email is required!");
@@ -37,7 +43,7 @@ function generateReceipt() {
 
         const dateObj = new Date(dateInput);
         const date = dateObj.toLocaleDateString('en-AU', { day: '2-digit', month: 'long', year: 'numeric' });
-        const time = timeInput.replace(':', ':') + (parseInt(timeInput.split(':')[0]) >= 12 ? ' PM' : ' AM');
+        const time = timeInput + (parseInt(timeInput.split(':')[0]) >= 12 ? ' PM' : ' AM');
         const formattedDateTime = `${date} at ${time}`;
 
         const orderNumber = Math.floor(100000 + Math.random() * 900000);
@@ -105,7 +111,6 @@ function generateReceipt() {
             format: 'a4'
         });
 
-        // Add logo
         doc.addImage('https://raw.githubusercontent.com/health-expo-quiz/supplements2u-receipt-generator/main/Supplements2U.jpg', 'JPEG', 85, 5, 40, 40);
         doc.setFontSize(22);
         doc.setFont("Helvetica", "bold");
@@ -117,11 +122,11 @@ function generateReceipt() {
         doc.text("Your Health, Our Priority", 105, 57, { align: "center" });
         doc.setFont("Helvetica", "normal");
         doc.setTextColor(51, 51, 51);
-        doc.text(address, 105, 65, { align: "center", maxWidth: 110 }); // Increased maxWidth for readability
-        doc.text(`ABN: ${abn}  |  Phone: ${phone}`, 105, 85, { align: "center" }); // Moved down to avoid overlap
+        doc.text(address, 105, 65, { align: "center", maxWidth: 110 });
+        doc.text(`ABN: ${abn}  |  Phone: ${phone}`, 105, 85, { align: "center" });
         doc.setLineWidth(0.5);
         doc.setDrawColor(26, 60, 94);
-        doc.line(20, 90, 190, 90); // Adjusted line position
+        doc.line(20, 90, 190, 90);
 
         doc.setFontSize(12);
         doc.setFont("Helvetica", "bold");
@@ -138,8 +143,8 @@ function generateReceipt() {
         doc.rect(20, y, 170, 6, "F");
         doc.setTextColor(255, 255, 255);
         doc.text("Item", 22, y + 4);
-        doc.text("Qty", 130, y + 4, { align: "center" }); // Shifted right
-        doc.text("Unit Price", 150, y + 4, { align: "right" }); // Shifted right
+        doc.text("Qty", 130, y + 4, { align: "center" });
+        doc.text("Unit Price", 150, y + 4, { align: "right" });
         doc.text("Total", 180, y + 4, { align: "right" });
         y += 6;
 
@@ -148,7 +153,7 @@ function generateReceipt() {
         items.forEach((item, index) => {
             doc.setFillColor(index % 2 === 0 ? 248 : 255, index % 2 === 0 ? 248 : 255, index % 2 === 0 ? 248 : 255);
             doc.rect(20, y, 170, 6, "F");
-            doc.text(item.name.slice(0, 45), 22, y + 4); // Increased max length
+            doc.text(item.name.slice(0, 45), 22, y + 4);
             doc.text(item.qty.toString(), 130, y + 4, { align: "center" });
             doc.text(`$${item.price.toFixed(2)}`, 150, y + 4, { align: "right" });
             doc.text(`$${(item.price * item.qty).toFixed(2)}`, 180, y + 4, { align: "right" });
@@ -208,6 +213,6 @@ function generateReceipt() {
         URL.revokeObjectURL(url);
     } catch (error) {
         console.error("Error generating PDF:", error);
-        alert("An error occurred while generating the PDF. Check the console for details.");
+        alert("An error occurred while generating the PDF. Check the console (F12) for details.");
     }
 }
