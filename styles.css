@@ -104,11 +104,10 @@ th, td {
     border: 1px solid #d0d0d0;
 }
 
-/* Adjusted column widths */
-th:nth-child(1), td:nth-child(1) { width: 60%; } /* Item Name - wider for longer names */
-th:nth-child(2), td:nth-child(2) { width: 10%; text-align: center; } /* Qty - shifted right */
-th:nth-child(3), td:nth-child(3) { width: 15%; text-align: right; } /* Unit Price - shifted right */
-th:nth-child(4), td:nth-child(4) { width: 15%; text-align: right; } /* Total */
+th:nth-child(1), td:nth-child(1) { width: 60%; }
+th:nth-child(2), td:nth-child(2) { width: 10%; text-align: center; }
+th:nth-child(3), td:nth-child(3) { width: 15%; text-align: right; }
+th:nth-child(4), td:nth-child(4) { width: 15%; text-align: right; }
 
 th {
     background-color: #1a3c5e;
