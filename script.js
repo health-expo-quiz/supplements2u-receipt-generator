@@ -63,7 +63,7 @@ function generateReceipt() {
         const address = "Water Town Shopping Centre\nA035/840 Wellington Street\nWest Perth WA 6005\nAustralia";
         const total = items.reduce((sum, item) => sum + (item.price * item.qty), 0);
         const paymentText = paymentMethod === "Card" && lastFour !== "N/A" 
-            ? `Paid via ${cardType} •••• ${lastFour}` 
+            ? `Paid via ${cardType} •••• •••• •••• ${lastFour}` 
             : `Paid via ${paymentMethod}`;
 
         const receiptContent = `
